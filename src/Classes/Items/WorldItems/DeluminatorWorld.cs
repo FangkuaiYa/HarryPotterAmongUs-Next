@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using System.Numerics;
 using Vector2 = UnityEngine.Vector2;
-using hunterlib.Classes;
+using Reactor;
+using Reactor.Extensions;
 
 namespace HarryPotter.Classes.WorldItems
 {

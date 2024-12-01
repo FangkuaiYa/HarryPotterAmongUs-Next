@@ -55,7 +55,7 @@ namespace HarryPotter.Classes
                 HudManager.Instance.KillButton.SetCoolDown(0f, 1f);
             }
 
-            if (Input.GetKeyDown(KeyCode.Q) && VigilanteShotEnabled) HudManager.Instance.KillButton.PerformKill();
+            if (Input.GetKeyDown(KeyCode.Q) && VigilanteShotEnabled) HudManager.Instance.KillButton.DoClick();
 
             if (AmongUsClient.Instance.AmHost)
             {
@@ -102,7 +102,7 @@ namespace HarryPotter.Classes
 
             if (Role == null)
             {
-                _Object.nameText.text = _Object.Data.PlayerName + "\n" + (_Object.Data.IsImpostor ? "Impostor" : "Muggle");
+                _Object.nameText.text = _Object.Data.PlayerName + "\n" + (_Object.Data.Role.IsImpostor ? "Impostor" : "Muggle");
                 _Object.nameText.transform.position = new Vector3(
                     _Object.nameText.transform.position.x, 
                     _Object.transform.position.y + 0.8f, 
@@ -117,14 +117,14 @@ namespace HarryPotter.Classes
                 _Object.transform.position.y + 0.8f, 
                 _Object.nameText.transform.position.z);
 
-            if (_Object.Data.IsImpostor)
+            if (_Object.Data.Role.IsImpostor)
             {
                 foreach (ModdedPlayerClass moddedPlayer in Main.Instance.AllPlayers)
                 {
                     if (moddedPlayer._Object.AmOwner)
                         continue;
 
-                    if (!moddedPlayer._Object.Data.IsImpostor)
+                    if (!moddedPlayer._Object.Data.Role.IsImpostor)
                         continue;
                     
                     if (moddedPlayer.Role == null)

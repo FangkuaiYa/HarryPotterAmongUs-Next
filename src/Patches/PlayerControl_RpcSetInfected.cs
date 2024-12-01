@@ -6,15 +6,18 @@ using System.Linq;
 using HarryPotter.Classes;
 using HarryPotter.Classes.Roles;
 using UnityEngine;
-using hunterlib.Classes;
+using Reactor;
+using Reactor.Extensions;
+using Reactor.Networking;
 
 namespace HarryPotter.Patches
 {
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetInfected))]
+    [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     class PlayerControl_RpcSetInfected
     {
-        static void Prefix(ref UnhollowerBaseLib.Il2CppReferenceArray<GameData.PlayerInfo> __0)
+        static void Prefix()
         {
+            var infected = GameData.Instance.AllPlayers.ToArray().Where(o => o.Role.IsImpostor);
             if (Main.Instance.Config.SelectRoles)
             {
                 List<string> impRolesToAssign = new List<string> { "Voldemort", "Bellatrix" };
@@ -50,17 +53,17 @@ namespace HarryPotter.Patches
 
                 System.Console.WriteLine(allImpostors.Count + ":" + PlayerControl.GameOptions.GetAdjustedNumImpostors(GameData.Instance.PlayerCount));
 
-                __0 = allImpostors.ToArray();
+                infected = allImpostors.ToArray();
             }
         }
 
         static void Postfix()
         {
             List<ModdedPlayerClass> allImp =
-                Main.Instance.AllPlayers.Where(x => x._Object.Data.IsImpostor).ToList();
-            
+                Main.Instance.AllPlayers.Where(x => x._Object.Data.Role.IsImpostor).ToList();
+
             List<ModdedPlayerClass> allCrew =
-                Main.Instance.AllPlayers.Where(x => !x._Object.Data.IsImpostor).ToList();
+                Main.Instance.AllPlayers.Where(x => !x._Object.Data.Role.IsImpostor).ToList();
 
             List<string> impRolesToAssign = new List<string> { "Voldemort", "Bellatrix" };
             List<string> crewRolesToAssign = new List<string> { "Harry", "Hermione", "Ron" };
@@ -69,7 +72,7 @@ namespace HarryPotter.Patches
             {
                 foreach (Pair<PlayerControl, string> roleTuple in Main.Instance.PlayersWithRequestedRoles)
                 {
-                    if (roleTuple.Item1.Data.IsImpostor)
+                    if (roleTuple.Item1.Data.Role.IsImpostor)
                     {
                         if (impRolesToAssign.Contains(roleTuple.Item2))
                         {
@@ -129,21 +132,21 @@ namespace HarryPotter.Patches
             {
                 ModdedPlayerClass rolePlayer = allCrew.Random();
                 allCrew.Remove(rolePlayer);
-                
+
                 if (crewRolesToAssign.Contains("Harry"))
                 {
                     crewRolesToAssign.Remove("Harry");
                     Main.Instance.RpcAssignRole(rolePlayer, new Harry(rolePlayer));
                     continue;
                 }
-                
+
                 if (crewRolesToAssign.Contains("Ron"))
                 {
                     crewRolesToAssign.Remove("Ron");
                     Main.Instance.RpcAssignRole(rolePlayer, new Ron(rolePlayer));
                     continue;
                 }
-                
+
                 if (crewRolesToAssign.Contains("Hermione"))
                 {
                     crewRolesToAssign.Remove("Hermione");

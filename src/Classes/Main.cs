@@ -6,10 +6,11 @@ using System.Linq;
 using HarryPotter.Classes.Roles;
 using HarryPotter.Classes.UI;
 using HarryPotter.Classes.WorldItems;
-using hunterlib.Classes;
 using InnerNet;
 using TMPro;
 using UnityEngine;
+using Reactor.Extensions;
+using Reactor;
 
 namespace HarryPotter.Classes
 {
@@ -596,7 +597,7 @@ namespace HarryPotter.Classes
 
                     target.Visible = true;
 
-                    target.myRend.color = new Color(1f, 1f, 1f, 100f / 255f);
+                    target.MyRend.color = new Color(1f, 1f, 1f, 100f / 255f);
                     target.HatRenderer.color = new Color(1f, 1f, 1f, 100f / 255f);
                     target.MyPhysics.Skin.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 100f / 255f);
                     target.CurrentPet.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 100f / 255f);
@@ -614,7 +615,7 @@ namespace HarryPotter.Classes
                     now.AddSeconds(Config.InvisCloakDuration) < DateTime.UtcNow ||
                     ModdedPlayerById(target.PlayerId).ControllerOverride != null)
                 {
-                    target.myRend.color = Color.white;
+                    target.MyRend.color = Color.white;
                     target.HatRenderer.color = Color.white;
                     target.MyPhysics.Skin.GetComponent<SpriteRenderer>().color = Color.white;
 
@@ -739,17 +740,17 @@ namespace HarryPotter.Classes
 
                         if (Input.GetKeyDown(KeyCode.Q))
                         {
-                            if (target.FindClosestTarget() != null && !ControlKillUsed)
+                            if (target.FindClosestTarget(true) != null && !ControlKillUsed)
                             {
                                 ControlKillUsed = true;
-                                RpcKillPlayer(target, target.FindClosestTarget(), true);
+                                RpcKillPlayer(target, target.FindClosestTarget(true), true);
                             }
                         }
 
                         if (ControlKillUsed)
                             HudManager.Instance.KillButton.SetTarget(null);
                         else
-                            HudManager.Instance.KillButton.SetTarget(target.FindClosestTarget());
+                            HudManager.Instance.KillButton.SetTarget(target.FindClosestTarget(true));
                     }
                 }
 
@@ -766,87 +767,7 @@ namespace HarryPotter.Classes
             writer.Write(newSpeed);
             writer.EndMessage();
         }
-        
-        public List<TextMeshPro> CustomOptions { get; set; }
                 
-        public string GetOptionTextByName(string name)
-        {
-            foreach (CustomNumberOption numberOption in CustomNumberOption.AllNumberOptions)
-                if (numberOption.Name == name) return $"{numberOption.Name}: {numberOption.Value}";
-
-            foreach (CustomToggleOption toggleOption in CustomToggleOption.AllToggleOptions)
-                if (toggleOption.Name == name) return $"{toggleOption.Name}: {(toggleOption.Value ? "On" : "Off")}";
-
-            return "no option text found (ERR)";
-        }
-
-        public void ResetCustomOptions()
-        {
-            if (CustomOptions != null)
-                foreach (TextMeshPro meshPro in CustomOptions)
-                    meshPro.gameObject.Destroy();
-
-            CustomOptions = new List<TextMeshPro>();
-            
-            foreach (CustomNumberOption numberOption in CustomNumberOption.AllNumberOptions)
-            {
-                string optionString = $"{numberOption.Name}: {numberOption.Value}";
-                
-                GameObject lobbyTextObj = new GameObject(numberOption.Name).DontDestroy();
-                lobbyTextObj.layer = 5;
-                
-                Tooltip lobbyTextTooltip = lobbyTextObj.AddComponent<Tooltip>();
-                lobbyTextTooltip.TooltipText = GetTooltipByOptionName(numberOption.Name);
-
-                TextMeshPro lobbyTextMesh = lobbyTextObj.AddComponent<TextMeshPro>();
-                lobbyTextMesh.fontSize = 1.6f;
-                lobbyTextMesh.alignment = TextAlignmentOptions.BottomLeft;
-                lobbyTextMesh.overflowMode = TextOverflowModes.Overflow;
-                lobbyTextMesh.maskable = false;
-                lobbyTextMesh.fontMaterial = Assets.GenericOutlineMat;
-                lobbyTextMesh.fontMaterial.SetFloat("_UnderlayDilate", 0.75f);
-                
-                RectTransform lobbyTextTrans = lobbyTextObj.GetComponent<RectTransform>();
-                lobbyTextTrans.sizeDelta = lobbyTextMesh.GetPreferredValues(optionString);
-
-                BoxCollider2D lobbyTextCollider = lobbyTextObj.AddComponent<BoxCollider2D>();
-                lobbyTextCollider.size = lobbyTextTrans.sizeDelta;
-                
-                lobbyTextMesh.text = optionString;
-                
-                CustomOptions.Add(lobbyTextMesh);
-            }
-            
-            foreach (CustomToggleOption toggleOption in CustomToggleOption.AllToggleOptions)
-            {
-                string optionString = $"{toggleOption.Name}: {(toggleOption.Value ? "On" : "Off")}";
-                
-                GameObject lobbyTextObj = new GameObject(toggleOption.Name).DontDestroy();
-                lobbyTextObj.layer = 5;
-
-                Tooltip lobbyTextTooltip = lobbyTextObj.AddComponent<Tooltip>();
-                lobbyTextTooltip.TooltipText = GetTooltipByOptionName(toggleOption.Name);
-                
-                TextMeshPro lobbyTextMesh = lobbyTextObj.AddComponent<TextMeshPro>();
-                lobbyTextMesh.fontSize = 1.6f;
-                lobbyTextMesh.alignment = TextAlignmentOptions.BottomLeft;
-                lobbyTextMesh.overflowMode = TextOverflowModes.Overflow;
-                lobbyTextMesh.maskable = false;
-                lobbyTextMesh.fontMaterial = Assets.GenericOutlineMat;
-                lobbyTextMesh.fontMaterial.SetFloat("_UnderlayDilate", 0.75f);
-
-                RectTransform lobbyTextTrans = lobbyTextObj.GetComponent<RectTransform>();
-                lobbyTextTrans.sizeDelta = lobbyTextMesh.GetPreferredValues(optionString);
-
-                BoxCollider2D lobbyTextCollider = lobbyTextObj.AddComponent<BoxCollider2D>();
-                lobbyTextCollider.size = lobbyTextTrans.sizeDelta;
-
-                lobbyTextMesh.text = optionString;
-                
-                CustomOptions.Add(lobbyTextMesh);
-            }
-        }
-        
         public void ControlPlayer(PlayerControl controller, PlayerControl target)
         {
             target.MyPhysics.body.velocity = Vector2.zero;
@@ -940,7 +861,7 @@ namespace HarryPotter.Classes
                 if (target.AmOwner && killer.AmOwner)
                 {
                     PopupTMPHandler.Instance.CreatePopup("You tried to kill Harry with the Killing Curse!\nBecause of Harry's passive ability, you are dead.", Color.white, Color.black, 3f);
-                    HudManager.Instance.KillOverlay.ShowOne(killer.Data, killer.Data);
+                    HudManager.Instance.KillOverlay.ShowKillAnimation(killer.Data, killer.Data);
                 }
                 else if (target.AmOwner)
                 {
@@ -959,7 +880,7 @@ namespace HarryPotter.Classes
             if (target.AmOwner)
             {
                 if (forceShowAnim)
-                    HudManager.Instance.KillOverlay.ShowOne(killer.Data, target.Data);
+                    HudManager.Instance.KillOverlay.ShowKillAnimation(killer.Data, target.Data);
                 
                 if (ModdedPlayerById(target.PlayerId).ShouldRevive)
                     RpcFakeKill(target);
@@ -1010,8 +931,8 @@ namespace HarryPotter.Classes
                 {
                     SoundManager.Instance.PlaySound(MeetingHud.Instance.VoteLockinSound, false, 1f);
                     
-                    playerVoteArea.didVote = true;
-                    playerVoteArea.votedFor = playerId;
+                    playerVoteArea.voteComplete = true;
+                    playerVoteArea.VotedFor = (byte)playerId;
                     playerVoteArea.Flag.enabled = true;
 
                     MeetingHud.Instance.SetDirtyBit(
@@ -1165,7 +1086,7 @@ namespace HarryPotter.Classes
         public string GetPlayerRoleName(ModdedPlayerClass player)
         {
             if (player == null) return "Null";
-            if (player.Role == null) return player._Object.Data.IsImpostor ? "Impostor" : "Muggle";
+            if (player.Role == null) return player._Object.Data.Role.IsImpostor ? "Impostor" : "Muggle";
             return player.Role.RoleName;
         }
 
@@ -1182,7 +1103,7 @@ namespace HarryPotter.Classes
             for (int i = 0; i < allPlayers.Count; i++)
             {
                 GameData.PlayerInfo playerInfo = allPlayers[i];
-                if (!playerInfo.Disconnected && playerInfo.PlayerId != player.PlayerId && !playerInfo.IsDead && (!playerInfo.IsImpostor || !excludeImp) && (exclusions == null || !exclusions.Any(x => x.PlayerId == playerInfo.PlayerId)))
+                if (!playerInfo.Disconnected && playerInfo.PlayerId != player.PlayerId && !playerInfo.IsDead && (!playerInfo.Role.IsImpostor || !excludeImp) && (exclusions == null || !exclusions.Any(x => x.PlayerId == playerInfo.PlayerId)))
                 {
                     PlayerControl @object = playerInfo.Object;
                     if (@object && @object.Collider.enabled)

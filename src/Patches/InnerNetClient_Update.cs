@@ -17,7 +17,7 @@ namespace HarryPotter.Patches
     {
         static void Postfix(InnerNetClient __instance)
         {
-            hunterlib.Classes.Coroutines.Start(LateUpdate());
+            Reactor.Coroutines.Start(LateUpdate());
         }
 
         static IEnumerator LateUpdate()
@@ -47,32 +47,6 @@ namespace HarryPotter.Patches
             
             Main.Instance?.Config?.ReloadSettings();
                         
-            foreach (TextMeshPro lobbySettingTMP in Main.Instance.CustomOptions)
-            {
-                if (!HudManager.InstanceExists || HudManager.Instance.GameSettings == null)
-                {
-                    lobbySettingTMP.gameObject.SetActive(false);
-                    continue;
-                }
-
-                Vector2 pos = HudManager.Instance.GameSettings.transform.position;
-                
-                pos.x += lobbySettingTMP.renderedWidth / 2;
-                pos.y -= lobbySettingTMP.renderedHeight / 2;
-                pos.y -= HudManager.Instance.GameSettings.renderedHeight;
-                pos.y -= lobbySettingTMP.renderedHeight * Main.Instance.CustomOptions.IndexOf(lobbySettingTMP);
-                
-                lobbySettingTMP.gameObject.transform.position = pos;
-                lobbySettingTMP.gameObject.SetActive(HudManager.Instance.GameSettings.isActiveAndEnabled);
-
-                string optionText = Main.Instance.GetOptionTextByName(lobbySettingTMP.gameObject.name);
-
-                RectTransform lobbyTextTrans = lobbySettingTMP.gameObject.GetComponent<RectTransform>();
-                lobbyTextTrans.sizeDelta = lobbySettingTMP.GetPreferredValues(optionText);
-
-                lobbySettingTMP.text = optionText;
-            }
-
             if (!AmongUsClient.Instance.IsGameStarted && Main.Instance != null)
             {
                 foreach (WorldItem wItem in Main.Instance.AllItems) wItem.Delete();

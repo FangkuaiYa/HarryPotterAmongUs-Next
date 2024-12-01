@@ -18,7 +18,7 @@ namespace HarryPotter.Classes.Items
         public override void Use()
         {
             this.Delete();
-            hunterlib.Classes.Coroutines.Start(Main.Instance.CoActivateButterBeer(Owner._Object));
+            Reactor.Coroutines.Start(Main.Instance.CoActivateButterBeer(Owner._Object));
         }
     }
 }

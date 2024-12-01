@@ -24,7 +24,7 @@ namespace HarryPotter.Classes.Items
         public override void Use()
         {
             this.Delete();
-            hunterlib.Classes.Coroutines.Start(ZoomOut());
+            Reactor.Coroutines.Start(ZoomOut());
         }
 
         public IEnumerator ZoomOut()

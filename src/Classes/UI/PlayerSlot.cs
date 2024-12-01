@@ -3,7 +3,8 @@ using System.Linq;
 using HarryPotter.Classes.Roles;
 using HarryPotter.Classes.UI;
 using UnityEngine;
-using hunterlib.Classes;
+using Reactor;
+using Reactor.Extensions;
 
 namespace HarryPotter.Classes.Helpers.UI
 {
@@ -56,8 +57,8 @@ namespace HarryPotter.Classes.Helpers.UI
                 if (Icon != null)
                 {
                     Icon.HatSlot.Destroy();
-                    Icon.SkinSlot.Destroy();
-                    Icon.Body.Destroy();
+                    Icon.Skin.layer.Destroy();
+                    Icon.CurrentBodySprite.BodySprite.Destroy();
                     Icon.gameObject.Destroy();
                     Icon.Destroy();
                 }
@@ -70,8 +71,8 @@ namespace HarryPotter.Classes.Helpers.UI
                 if (Icon != null)
                 {
                     Icon.HatSlot.Destroy();
-                    Icon.SkinSlot.Destroy();
-                    Icon.Body.Destroy();
+                    Icon.Skin.layer.Destroy();
+                    Icon.CurrentBodySprite.BodySprite.Destroy();
                     Icon.gameObject.Destroy();
                     Icon.Destroy();
                 }
@@ -92,8 +93,8 @@ namespace HarryPotter.Classes.Helpers.UI
             {
                 Icon = Instantiate(HudManager.Instance.IntroPrefab.PlayerPrefab, gameObject.transform).DontDestroy();
                 Icon.gameObject.layer = 5;
-                Icon.Body.sortingOrder = 5;
-                Icon.SkinSlot.sortingOrder = 6;
+                Icon.CurrentBodySprite.BodySprite.sortingOrder = 5;
+                Icon.Skin.layer.sortingOrder = 6;
                 Icon.HatSlot.BackLayer.sortingOrder = 4;
                 Icon.HatSlot.FrontLayer.sortingOrder = 6;
                 Icon.name = data.PlayerName;
@@ -101,10 +102,10 @@ namespace HarryPotter.Classes.Helpers.UI
                 Icon.transform.localScale = Vector3.one * 2f;
             }
 
-            PlayerControl.SetPlayerMaterialColors(data.ColorId, Icon.Body);
-            DestroyableSingleton<HatManager>.Instance.SetSkin(Icon.SkinSlot, data.SkinId);
-            Icon.HatSlot.SetHat(data.HatId, data.ColorId);
-            PlayerControl.SetPetImage(data.PetId, data.ColorId, Icon.PetSlot);
+            PlayerControl.SetPlayerMaterialColors(data.DefaultOutfit.ColorId, Icon.CurrentBodySprite.BodySprite);
+            TargetedPlayer.SetSkin(data.DefaultOutfit.SkinId, data.DefaultOutfit.ColorId);
+            Icon.HatSlot.SetHat(data.DefaultOutfit.HatId, data.DefaultOutfit.ColorId);
+            PlayerControl.SetPetImage(data.DefaultOutfit.PetId, data.DefaultOutfit.ColorId, Icon.PetSlot);
             Icon.NameText.gameObject.SetActive(false);
         }
 

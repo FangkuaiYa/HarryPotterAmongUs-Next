@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using hunterlib.Classes;
+using Reactor;
+using Reactor.Extensions;
 
 namespace HarryPotter.Classes
 {
@@ -17,11 +18,11 @@ namespace HarryPotter.Classes
             if (AllInfo.Count == 0 && PlayerControl.LocalPlayer.myTasks.Count > 0)
             {
                 string roleName = Main.Instance.GetLocalModdedPlayer().Role == null
-                    ? (PlayerControl.LocalPlayer.Data.IsImpostor ? "Impostor" : "Muggle")
+                    ? (PlayerControl.LocalPlayer.Data.Role.IsImpostor ? "Impostor" : "Muggle")
                     : Main.Instance.GetLocalModdedPlayer().Role.RoleName;
                 AddNewItem(0, $"{GetRoleHexColor(PlayerControl.LocalPlayer)}Role: {roleName}</color></color>");
                 if (Main.Instance.GetLocalModdedPlayer().Role == null) return;
-                if (!Main.Instance.Config.ShowPopups) return;
+                //if (!Main.Instance.Config.ShowPopups) return;
                 AddNewItem(1, $"{GetRoleHexColor(PlayerControl.LocalPlayer)}Hover over ability buttons for more information.</color></color>");
             }
         }

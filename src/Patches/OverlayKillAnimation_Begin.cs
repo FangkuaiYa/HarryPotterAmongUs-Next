@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HarryPotter.Patches
 {
-    [HarmonyPatch(typeof(OverlayKillAnimation), nameof(OverlayKillAnimation.Begin))]
+    [HarmonyPatch(typeof(OverlayKillAnimation), nameof(OverlayKillAnimation.Initialize))]
     public class OverlayKillAnimation_Begin
     {
         static void Prefix(OverlayKillAnimation __instance,  ref GameData.PlayerInfo __0, GameData.PlayerInfo __1)
@@ -16,8 +16,8 @@ namespace HarryPotter.Patches
             if (harry == null) return;
             
             __0 = harry._Object.Data;
-            __instance.killerParts.Body.transform.localScale = new Vector3(0.4f, 0.4f);
-            __instance.killerParts.Body.transform.position -= new Vector3(0.3f, 0f, 0f);
+            __instance.killerParts.CurrentBodySprite.BodySprite.transform.localScale = new Vector3(0.4f, 0.4f);
+            __instance.killerParts.CurrentBodySprite.BodySprite.transform.position -= new Vector3(0.3f, 0f, 0f);
         }
     }
 }

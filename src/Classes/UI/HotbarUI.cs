@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using hunterlib.Classes;
+using Reactor;
+using Reactor.Extensions;
 
 namespace HarryPotter.Classes.Helpers.UI
 {

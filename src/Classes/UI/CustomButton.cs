@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using TMPro;
-using hunterlib.Classes;
+using Reactor;
+using Reactor.Extensions;
 using UnityEngine;
 
 namespace HarryPotter.Classes.Helpers.UI

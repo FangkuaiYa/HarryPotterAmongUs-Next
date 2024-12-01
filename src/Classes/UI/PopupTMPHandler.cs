@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using hunterlib.Classes;
+using Reactor;
+using Reactor.Extensions;
 
 namespace HarryPotter.Classes.UI
 {
@@ -14,7 +15,7 @@ namespace HarryPotter.Classes.UI
 
         public void CreatePopup(string message, Color color, Color outlineColor, float delay = 0)
         {
-            if (!Main.Instance.Config.ShowPopups) return;
+            //if (!Main.Instance.Config.ShowPopups) return;
             Coroutines.Start(CoCreatePopup(message, color, outlineColor, delay));
         }
 
@@ -31,7 +32,7 @@ namespace HarryPotter.Classes.UI
             popupTMP.fontSize = 2f;
             popupTMP.alignment = TextAlignmentOptions.Center;
             popupTMP.fontStyle = FontStyles.Bold;
-            popupTMP.fontMaterial = Main.Instance.Assets.GenericOutlineMat;
+            //popupTMP.fontMaterial = Main.Instance.Assets.GenericOutlineMat;
             popupTMP.fontMaterial.SetFloat("_UnderlayDilate", 0.6f);
             popupTMP.fontMaterial.SetColor("_UnderlayColor", outlineColor);
             

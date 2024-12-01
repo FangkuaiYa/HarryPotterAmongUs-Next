@@ -2,7 +2,8 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using hunterlib.Classes;
+using Reactor;
+using Reactor.Extensions;
 
 namespace HarryPotter.Classes.UI
 {
@@ -32,7 +33,7 @@ namespace HarryPotter.Classes.UI
             TooltipTMP.alignment = TextAlignmentOptions.BottomLeft;
             TooltipTMP.overflowMode = TextOverflowModes.Overflow;
             TooltipTMP.maskable = false;
-            TooltipTMP.fontMaterial = Main.Instance.Assets.GenericOutlineMat;
+            //TooltipTMP.fontMaterial = Main.Instance.Assets.GenericOutlineMat;
             TooltipTMP.fontMaterial.SetFloat("_UnderlayDilate", 0.75f);
             
             TooltipRenderer = TooltipObj.GetComponent<MeshRenderer>();
@@ -71,7 +72,7 @@ namespace HarryPotter.Classes.UI
         
         private void OnMouseOver()
         {
-            if (!Enabled || !Main.Instance.Config.ShowPopups) return;
+            if (!Enabled) return;
             TooltipObj.SetActive(true);
         }
     }

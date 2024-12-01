@@ -21,14 +21,14 @@ namespace HarryPotter.Patches
                 else
                 {
                     Main.Instance.PlayerDie(__instance);
-                    
-                    StatsManager instance = StatsManager.Instance;
-                    uint timesEjected = instance.TimesEjected;
-                    instance.TimesEjected = timesEjected + 1U;
+
+                    ExileController instance = ExileController.Instance;
+                    float timesEjected = instance.Duration;
+                    instance.Duration = timesEjected + 1U;
                     DestroyableSingleton<HudManager>.Instance.ShadowQuad.gameObject.SetActive(false);
                     ImportantTextTask importantTextTask = new GameObject("_Player").AddComponent<ImportantTextTask>();
                     importantTextTask.transform.SetParent(__instance.transform, false);
-                    if (__instance.Data.IsImpostor)
+                    if (__instance.Data.Role.IsImpostor)
                     {
                         __instance.ClearTasks();
                         importantTextTask.Text = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.GhostImpostor, new Il2CppReferenceArray<Object>(0));

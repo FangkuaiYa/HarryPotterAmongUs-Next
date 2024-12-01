@@ -1,18 +1,40 @@
-﻿using hunterlib.Classes;
+﻿using System;
+using CustomOption.CustomOption;
+using Reactor;
+using Reactor.Extensions;
 
 namespace HarryPotter.Classes
 {
     class Config
     {
-        private CustomToggleOption Option1 = CustomToggleOption.Create("Order of the Impostors", false);
-        private CustomToggleOption Option3 = CustomToggleOption.Create("Can Spells be Used In Vents", false);
-        private CustomToggleOption Option4 = CustomToggleOption.Create("Show Info Popups/Tooltips");
-        private CustomToggleOption Option5 = CustomToggleOption.Create("Shared Voldemort Cooldowns");
-        private CustomNumberOption Option9 = CustomNumberOption.Create("Defensive Duelist Cooldown", 20f, 40f, 10, 2.5f);
-        private CustomNumberOption Option10 = CustomNumberOption.Create("Invisibility Cloak Cooldown", 20f, 40f, 10, 2.5f);
-        private CustomNumberOption Option11 = CustomNumberOption.Create("Time Turner Cooldown", 20f, 40f, 10f, 2.5f);
-        private CustomNumberOption Option12 = CustomNumberOption.Create("Crucio Cooldown", 20f, 40f, 10f, 2.5f);
+        private static CustomHeaderOption HPSettings;
 
+        private static CustomToggleOption Option1;
+        private static CustomToggleOption Option3;
+        //private static CustomToggleOption Option4;
+        private static CustomToggleOption Option5;
+        private static CustomNumberOption Option9;
+        private static CustomNumberOption Option10;
+        private static CustomNumberOption Option11;
+        private static CustomNumberOption Option12;
+        
+        private static Func<object, string> CooldownFormat { get; } = value => $"{value:0.0#}s";
+        public static void LoadOptions()
+        {
+            var num = 2;
+
+            HPSettings = new CustomHeaderOption(num++, "Harry Potter Settings");
+
+            Option1 = new CustomToggleOption(num++, "Order of the Impostors", false);
+            Option3 = new CustomToggleOption(num++, "Can Spells be Used In Vents", false);
+            //Option4 = new CustomToggleOption(num++, "Show Info Popups/Tooltips", true);
+            Option5 = new CustomToggleOption(num++, "Shared Voldemort Cooldowns", true);
+            Option9 = new CustomNumberOption(num++, "Defensive Duelist Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            Option10 = new CustomNumberOption(num++, "Invisibility Cloak Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            Option11 = new CustomNumberOption(num++, "Time Turner Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            Option12 = new CustomNumberOption(num++, "Crucio Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+
+        }
         public bool OrderOfTheImp { get; private set; }
         public float MapDuration { get { return 10; } }
         public float DefensiveDuelistDuration { get { return 10; } }
@@ -26,7 +48,7 @@ namespace HarryPotter.Classes
         public float CrucioCooldown { get; private set; }
         public bool SpellsInVents { get; private set; }
         public float ImperioDuration { get { return 10; } }
-        public bool ShowPopups { get; private set; }
+        //public bool ShowPopups { get; private set; }
         public bool SeparateCooldowns { get; private set; }
         public bool SimplerWatermark { get { return false; } }
         public bool SelectRoles { get { return false; } }
@@ -34,14 +56,14 @@ namespace HarryPotter.Classes
         
         public void ReloadSettings()
         {
-            OrderOfTheImp = Option1.Value;
-            SpellsInVents = Option3.Value;
-            DefensiveDuelistCooldown = Option9.Value;
-            InvisCloakCooldown = Option10.Value;
-            HourglassCooldown = Option11.Value;
-            CrucioCooldown = Option12.Value;
-            ShowPopups = Option4.Value;
-            SeparateCooldowns = !Option5.Value;
+            OrderOfTheImp = Option1.Get();
+            SpellsInVents = Option3.Get();
+            DefensiveDuelistCooldown = Option9.Get();
+            InvisCloakCooldown = Option10.Get();
+            HourglassCooldown = Option11.Get();
+            CrucioCooldown = Option12.Get();
+            //ShowPopups = Option4.Get();
+            SeparateCooldowns = !Option5.Get();
         }
     }
 }

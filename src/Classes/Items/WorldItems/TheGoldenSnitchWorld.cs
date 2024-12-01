@@ -2,7 +2,8 @@
 using System.Linq;
 using Hazel;
 using UnityEngine;
-using hunterlib.Classes;
+using Reactor;
+using Reactor.Extensions;
 
 namespace HarryPotter.Classes.WorldItems
 {

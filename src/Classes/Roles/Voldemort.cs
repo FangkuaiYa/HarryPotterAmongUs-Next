@@ -7,7 +7,7 @@ namespace HarryPotter.Classes.Roles
 {
     public class Voldemort : Role
     {
-        public KillButtonManager CurseButton { get; set; }
+        public KillButton CurseButton { get; set; }
         public DateTime LastCurse { get; set; }
 
         public Voldemort(ModdedPlayerClass owner)
@@ -22,8 +22,10 @@ namespace HarryPotter.Classes.Roles
                 return;
             
             CurseButton = UnityEngine.Object.Instantiate(HudManager.Instance.KillButton);
-            CurseButton.renderer.enabled = true;
-            
+            CurseButton.graphic.enabled = true;
+            CurseButton.buttonLabelText.gameObject.SetActive(true);
+            CurseButton.buttonLabelText.text = "Avadacadavra";
+
             Tooltip tt = CurseButton.gameObject.AddComponent<Tooltip>();
             tt.TooltipText = "The Killing Curse:\nA spell which will kill any target it hits, except Harry\nIf the spell hits Harry, you will die instead\n<#FF0000FF>Right click to shoot this spell in the direction of your cursor";
         }
@@ -39,7 +41,7 @@ namespace HarryPotter.Classes.Roles
             Vector2 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0));
 
             CurseButton.gameObject.SetActive(HudManager.Instance.KillButton.isActiveAndEnabled);
-            CurseButton.renderer.sprite = Main.Instance.Assets.AbilityIcons[0];
+            CurseButton.graphic.sprite = Main.Instance.Assets.AbilityIcons[0];
             CurseButton.transform.position = new Vector2(bottomLeft.x + 0.75f, bottomLeft.y + 0.75f);
             CurseButton.SetTarget(null);
             if (Main.Instance.Config.SeparateCooldowns)
@@ -53,8 +55,8 @@ namespace HarryPotter.Classes.Roles
             
             if (!CurseButton.isCoolingDown && !isDead)
             {
-                CurseButton.renderer.material.SetFloat("_Desat", 0f);
-                CurseButton.renderer.color = Palette.EnabledColor;
+                CurseButton.graphic.material.SetFloat("_Desat", 0f);
+                CurseButton.graphic.color = Palette.EnabledColor;
             }
             
             if (Input.GetMouseButtonDown(1))
@@ -102,7 +104,7 @@ namespace HarryPotter.Classes.Roles
             Main.Instance.RpcCreateCurse(mouseWorld, Owner);
         }
 
-        public override bool PerformKill(KillButtonManager __instance)
+        public override bool PerformKill(KillButton __instance)
         {
             return __instance != CurseButton;
         }
