@@ -16,8 +16,8 @@ namespace HarryPotter.Patches
             if (harry == null) return;
             
             __0 = harry._Object.Data;
-            __instance.killerParts.CurrentBodySprite.BodySprite.transform.localScale = new Vector3(0.4f, 0.4f);
-            __instance.killerParts.CurrentBodySprite.BodySprite.transform.position -= new Vector3(0.3f, 0f, 0f);
+            __instance.killerParts.cosmetics.currentBodySprite.BodySprite.transform.localScale = new Vector3(0.4f, 0.4f);
+            __instance.killerParts.cosmetics.currentBodySprite.BodySprite.transform.position -= new Vector3(0.3f, 0f, 0f);
         }
     }
 }

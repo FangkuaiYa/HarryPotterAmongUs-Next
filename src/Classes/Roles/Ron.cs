@@ -22,8 +22,6 @@ namespace HarryPotter.Classes.Roles
             
             DDButton = KillButton.Instantiate(HudManager.Instance.KillButton);
             DDButton.graphic.enabled = true;
-            DDButton.buttonLabelText.gameObject.SetActive(true);
-            DDButton.buttonLabelText.text = "Defense";
 
             Tooltip tt = DDButton.gameObject.AddComponent<Tooltip>();
             tt.TooltipText = $"Defensive Duelist:\nWill make you invulnerable to spells and kills for {Main.Instance.Config.DefensiveDuelistDuration}s\nWhile this ability is active, you cannot move";
@@ -82,7 +80,9 @@ namespace HarryPotter.Classes.Roles
             DDButton.transform.position = new Vector2(bottomLeft.x + 0.75f, bottomLeft.y + 0.75f);
             DDButton.SetTarget(null);
             DDButton.SetCoolDown(Main.Instance.Config.DefensiveDuelistCooldown - (float)(DateTime.UtcNow - LastCloak).TotalSeconds, Main.Instance.Config.DefensiveDuelistCooldown);
-            
+            DDButton.buttonLabelText.gameObject.SetActive(true);
+            DDButton.buttonLabelText.text = "Defense";
+
             bool isDead = Owner._Object.Data.IsDead;
             if (isDead)
                 DDButton.SetCoolDown(0, 1);

@@ -21,7 +21,7 @@ namespace HarryPotter.Patches
                 }
                 return false;
             }
-            
+
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (Main.Instance.GetLocalModdedPlayer()?.Role != null)
                 return Main.Instance.GetLocalModdedPlayer().Role.PerformKill(__instance);

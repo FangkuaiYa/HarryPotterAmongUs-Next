@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
+using Reactor.Utilities;
 
 namespace HarryPotter.Classes.UI
 {

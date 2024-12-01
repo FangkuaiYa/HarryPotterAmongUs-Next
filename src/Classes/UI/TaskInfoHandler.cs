@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 
 namespace HarryPotter.Classes
 {

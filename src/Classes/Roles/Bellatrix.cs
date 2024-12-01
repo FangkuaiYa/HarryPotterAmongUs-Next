@@ -77,8 +77,8 @@ namespace HarryPotter.Classes.Roles
             MarkedPlayers.RemoveAll(x => x.Data.IsDead || x.Data.Disconnected);
             foreach (PlayerControl player in MarkedPlayers)
             {
-                player.MyRend?.material?.SetFloat("_Outline", 1f);
-                player.MyRend?.material?.SetColor("_OutlineColor", Color.yellow);
+                player.cosmetics.currentBodySprite.BodySprite?.material?.SetFloat("_Outline", 1f);
+                player.cosmetics.currentBodySprite.BodySprite?.material?.SetColor("_OutlineColor", Color.yellow);
             }
             
             DrawButtons();

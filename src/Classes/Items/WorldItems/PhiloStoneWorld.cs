@@ -4,7 +4,7 @@ using Hazel;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 
 namespace HarryPotter.Classes.WorldItems
 {

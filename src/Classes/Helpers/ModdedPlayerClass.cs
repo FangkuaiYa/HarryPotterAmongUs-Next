@@ -91,31 +91,31 @@ namespace HarryPotter.Classes
                     if (moddedPlayer.Role == null) continue;
                     
                     Main.Instance.SetNameColor(moddedPlayer._Object, moddedPlayer.Role.RoleColor);
-                    moddedPlayer._Object.nameText.transform.position = new Vector3(
-                        moddedPlayer._Object.nameText.transform.position.x,
+                    moddedPlayer._Object.cosmetics.nameText.transform.position = new Vector3(
+                        moddedPlayer._Object.cosmetics.nameText.transform.position.x,
                         moddedPlayer._Object.transform.position.y + 0.8f,
-                        moddedPlayer._Object.nameText.transform.position.z);
-                    moddedPlayer._Object.nameText.text =
+                        moddedPlayer._Object.cosmetics.nameText.transform.position.z);
+                    moddedPlayer._Object.cosmetics.nameText.text =
                         moddedPlayer._Object.Data.PlayerName + "\n" + moddedPlayer.Role.RoleName;
                 }
             }*/
 
             if (Role == null)
             {
-                _Object.nameText.text = _Object.Data.PlayerName + "\n" + (_Object.Data.Role.IsImpostor ? "Impostor" : "Muggle");
-                _Object.nameText.transform.position = new Vector3(
-                    _Object.nameText.transform.position.x, 
+                _Object.cosmetics.nameText.text = _Object.Data.PlayerName + "\n" + (_Object.Data.Role.IsImpostor ? "Impostor" : "Muggle");
+                _Object.cosmetics.nameText.transform.position = new Vector3(
+                    _Object.cosmetics.nameText.transform.position.x, 
                     _Object.transform.position.y + 0.8f, 
-                    _Object.nameText.transform.position.z);
+                    _Object.cosmetics.nameText.transform.position.z);
                 return;
             }
 
             Main.Instance.SetNameColor(_Object, Role.RoleColor);
-            _Object.nameText.text = _Object.Data.PlayerName + "\n" + Role.RoleName;
-            _Object.nameText.transform.position = new Vector3(
-                _Object.nameText.transform.position.x, 
+            _Object.cosmetics.nameText.text = _Object.Data.PlayerName + "\n" + Role.RoleName;
+            _Object.cosmetics.nameText.transform.position = new Vector3(
+                _Object.cosmetics.nameText.transform.position.x, 
                 _Object.transform.position.y + 0.8f, 
-                _Object.nameText.transform.position.z);
+                _Object.cosmetics.nameText.transform.position.z);
 
             if (_Object.Data.Role.IsImpostor)
             {
@@ -130,11 +130,11 @@ namespace HarryPotter.Classes
                     if (moddedPlayer.Role == null)
                         continue;
                     
-                    moddedPlayer._Object.nameText.transform.position = new Vector3(
-                        moddedPlayer._Object.nameText.transform.position.x,
+                    moddedPlayer._Object.cosmetics.nameText.transform.position = new Vector3(
+                        moddedPlayer._Object.cosmetics.nameText.transform.position.x,
                         moddedPlayer._Object.transform.position.y + 0.8f,
-                        moddedPlayer._Object.nameText.transform.position.z);
-                    moddedPlayer._Object.nameText.text =
+                        moddedPlayer._Object.cosmetics.nameText.transform.position.z);
+                    moddedPlayer._Object.cosmetics.nameText.text =
                         moddedPlayer._Object.Data.PlayerName + "\n" + moddedPlayer.Role.RoleName;
                 }
             }

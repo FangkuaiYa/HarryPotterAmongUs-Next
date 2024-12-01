@@ -13,6 +13,7 @@ using TMPro;
 using UnityEngine;
 using CustomOption;
 using Il2CppSystem.Web.Util;
+using BepInEx.Unity.IL2CPP;
 
 namespace HarryPotter
 {
@@ -55,21 +56,6 @@ namespace HarryPotter
         }
     }
     
-    [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.ToHudString))]
-    public class GameOptionsDataPatch
-    {
-        public static void Postfix(GameOptionsData __instance, ref string __result)
-        {
-            List<string> resultLines = __result.Split("\n").ToList();
-            resultLines.RemoveAt(0);
-            resultLines.Insert(0, "Game Settings:");
-            
-            __result = string.Join("\n", resultLines);
-            __result += "\n(Use \"TAB\" to see more)";
-            //if (Main.Instance.Config.ShowPopups) __result += "\n(Hover over a setting for more info)";
-        }
-    }
-
     [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
     public static class PingTracker_Update
     {

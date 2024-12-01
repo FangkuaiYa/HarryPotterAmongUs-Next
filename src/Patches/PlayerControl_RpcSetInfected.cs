@@ -7,7 +7,7 @@ using HarryPotter.Classes;
 using HarryPotter.Classes.Roles;
 using UnityEngine;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 using Reactor.Networking;
 
 namespace HarryPotter.Patches

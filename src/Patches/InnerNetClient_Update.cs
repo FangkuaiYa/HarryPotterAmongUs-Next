@@ -5,8 +5,7 @@ using HarmonyLib;
 using HarryPotter.Classes;
 using HarryPotter.Classes.WorldItems;
 using InnerNet;
-using TMPro;
-using UnhollowerBaseLib;
+using Reactor.Utilities;
 using UnityEngine;
 
 namespace HarryPotter.Patches
@@ -17,7 +16,7 @@ namespace HarryPotter.Patches
     {
         static void Postfix(InnerNetClient __instance)
         {
-            Reactor.Coroutines.Start(LateUpdate());
+            Coroutines.Start(LateUpdate());
         }
 
         static IEnumerator LateUpdate()

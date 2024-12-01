@@ -3,7 +3,7 @@ using System.Linq;
 using Hazel;
 using UnityEngine;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 
 namespace HarryPotter.Classes.WorldItems
 {

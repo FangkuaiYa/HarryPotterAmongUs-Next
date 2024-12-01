@@ -5,18 +5,22 @@ using UnityEngine;
 
 namespace HarryPotter.Patches
 {
-    [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__19), nameof(IntroCutscene._CoBegin_d__19.MoveNext))]
-    class IntroCutscene_CoBegin__d_MoveNext
+    [HarmonyPatch(typeof(IntroCutscene._ShowTeam_d__21), nameof(IntroCutscene._ShowTeam_d__21.MoveNext))]
+    class IntroCutscene_ShowTeam_d__21_MoveNext
     {
-        static void Prefix(IntroCutscene._CoBegin_d__19 __instance)
-        {
-            __instance.__4__this.IntroStinger = Main.Instance.Assets.HPTheme;
-        }
-        
-        static void Postfix(IntroCutscene._CoBegin_d__19 __instance)
+        static void Prefix(IntroCutscene._ShowTeam_d__21 __instance)
         {
             ModdedPlayerClass localPlayer = Main.Instance.GetLocalModdedPlayer();
             if (!localPlayer._Object.Data.Role.IsImpostor) __instance.__4__this.TeamTitle.text = "Muggle";
+        }
+
+    }
+    [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__24), nameof(IntroCutscene._ShowRole_d__24.MoveNext))]
+    class IntroCutscene_ShowRole_d__24_MoveNext
+    {
+        static void Postfix(IntroCutscene._ShowRole_d__24 __instance)
+        {
+            ModdedPlayerClass localPlayer = Main.Instance.GetLocalModdedPlayer();
             if (localPlayer.Role == null) return;
             localPlayer.Role.ResetCooldowns();
             __instance.__4__this.ImpostorText.gameObject.SetActive(true);

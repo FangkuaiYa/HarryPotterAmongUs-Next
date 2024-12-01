@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
 using HarryPotter.Classes;
 using Hazel;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem;
-using UnhollowerBaseLib;
 using UnityEngine;
 using Object = Il2CppSystem.Object;
 

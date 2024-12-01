@@ -2,8 +2,9 @@
 using System.Linq;
 using TMPro;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 using UnityEngine;
+using Reactor.Utilities.Attributes;
 
 namespace HarryPotter.Classes.Helpers.UI
 {

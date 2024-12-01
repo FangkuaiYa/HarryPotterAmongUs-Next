@@ -9,8 +9,10 @@ using HarryPotter.Classes.WorldItems;
 using InnerNet;
 using TMPro;
 using UnityEngine;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 using Reactor;
+using Reactor.Utilities;
+using Sentry.Protocol;
 
 namespace HarryPotter.Classes
 {
@@ -388,10 +390,10 @@ namespace HarryPotter.Classes
 
         public void SetNameColor(PlayerControl player, Color color)
         {
-            player.nameText.color = color;
+            player.cosmetics.nameText.color = color;
             if (HudManager.Instance && HudManager.Instance.Chat)
                 foreach (PoolableBehavior bubble in HudManager.Instance.Chat.chatBubPool.activeChildren)
-                    if (bubble.Cast<ChatBubble>().NameText.text == player.nameText.text)
+                    if (bubble.Cast<ChatBubble>().NameText.text == player.cosmetics.nameText.text)
                         bubble.Cast<ChatBubble>().NameText.color = color;
             if (MeetingHud.Instance && MeetingHud.Instance.playerStates != null)
                 foreach (PlayerVoteArea voteArea in MeetingHud.Instance.playerStates)
@@ -563,7 +565,6 @@ namespace HarryPotter.Classes
                     durationText.Text = $"{TaskInfoHandler.Instance.GetRoleHexColor(player)}Defensive Duelist: {Math.Ceiling(Config.DefensiveDuelistDuration - (float) (DateTime.UtcNow - now).TotalSeconds)}s remaining</color></color>";
                     GetLocalModdedPlayer().Role?.ResetCooldowns();
                 }
-
                 yield return null;
             }
         }
@@ -597,17 +598,17 @@ namespace HarryPotter.Classes
 
                     target.Visible = true;
 
-                    target.MyRend.color = new Color(1f, 1f, 1f, 100f / 255f);
-                    target.HatRenderer.color = new Color(1f, 1f, 1f, 100f / 255f);
-                    target.MyPhysics.Skin.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 100f / 255f);
-                    target.CurrentPet.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 100f / 255f);
+                    target.cosmetics.currentBodySprite.BodySprite.color = new Color(1f, 1f, 1f, 100f / 255f);
+                    target.cosmetics.hat.SpriteColor = new Color(1f, 1f, 1f, 100f / 255f);
+                    target.MyPhysics.myPlayer.cosmetics.skin.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 100f / 255f);
+                    target.cosmetics.currentPet.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 100f / 255f);
                 }
                 else
                 {
                     target.Visible = false;
 
-                    if (target.CurrentPet)
-                        target.CurrentPet.Visible = false;
+                    if (target.cosmetics.currentPet)
+                        target.cosmetics.currentPet.Visible = false;
                 }
                 
                 if (MeetingHud.Instance || 
@@ -615,14 +616,14 @@ namespace HarryPotter.Classes
                     now.AddSeconds(Config.InvisCloakDuration) < DateTime.UtcNow ||
                     ModdedPlayerById(target.PlayerId).ControllerOverride != null)
                 {
-                    target.MyRend.color = Color.white;
-                    target.HatRenderer.color = Color.white;
-                    target.MyPhysics.Skin.GetComponent<SpriteRenderer>().color = Color.white;
+                    target.cosmetics.currentBodySprite.BodySprite.color = Color.white;
+                    target.cosmetics.hat.SpriteColor = Color.white;
+                    target.MyPhysics.myPlayer.cosmetics.skin.GetComponent<SpriteRenderer>().color = Color.white;
 
-                    if (target.CurrentPet)
+                    if (target.cosmetics.currentPet)
                     {
-                        target.CurrentPet.GetComponent<SpriteRenderer>().color = Color.white;
-                        target.CurrentPet.Visible = true;
+                        target.cosmetics.currentPet.GetComponent<SpriteRenderer>().color = Color.white;
+                        target.cosmetics.currentPet.Visible = true;
                     }
 
                     target.Visible = true;
@@ -740,17 +741,17 @@ namespace HarryPotter.Classes
 
                         if (Input.GetKeyDown(KeyCode.Q))
                         {
-                            if (target.FindClosestTarget(true) != null && !ControlKillUsed)
+                            if (target.Data.Role.FindClosestTarget() != null && !ControlKillUsed)
                             {
                                 ControlKillUsed = true;
-                                RpcKillPlayer(target, target.FindClosestTarget(true), true);
+                                RpcKillPlayer(target, target.Data.Role.FindClosestTarget(), true);
                             }
                         }
 
                         if (ControlKillUsed)
                             HudManager.Instance.KillButton.SetTarget(null);
                         else
-                            HudManager.Instance.KillButton.SetTarget(target.FindClosestTarget(true));
+                            HudManager.Instance.KillButton.SetTarget(target.Data.Role.FindClosestTarget());
                     }
                 }
 
@@ -904,11 +905,11 @@ namespace HarryPotter.Classes
                 AmongUsClient.Instance.gameObject.layer = LayerMask.NameToLayer("Ghost");
             }
             
-            if (target.CurrentPet)
-                target.CurrentPet.SetMourning();
+            if (target.cosmetics.currentPet)
+                target.cosmetics.currentPet.SetMourning();
 
             target.Data.IsDead = true;
-            target.nameText.GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
+            target.cosmetics.nameText.GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
             target.gameObject.layer = LayerMask.NameToLayer("Ghost");
         }
 
@@ -1119,30 +1120,6 @@ namespace HarryPotter.Classes
                 }
             }
             return result;
-        }
-
-        public string GetTooltipByOptionName(string name)
-        {
-            switch (name)
-            {
-                case "Order of the Impostors":
-                    return "If 'On', when Harry, Ron, and Hermione are dead, Impostors will win";
-                case "Can Spells be Used In Vents":
-                    return "When 'On', spells can be casted from inside vents";
-                case "Show Info Popups/Tooltips":
-                    return "When 'On', informational popups/tooltips will be shown";
-                case "Defensive Duelist Cooldown":
-                    return "The cooldown for Ron's main ability";
-                case "Invisibility Cloak Cooldown":
-                    return "The cooldown for Harry's main ability";
-                case "Time Turner Cooldown":
-                    return "The cooldown for Hermione's main ability";
-                case "Crucio Cooldown":
-                    return "The cooldown for Bellatrix's secondary ability";
-                case "Shared Voldemort Cooldowns":
-                    return "When 'On', the Kill button and the Curse button will share a cooldown";
-            }
-            return "No tooltip was supplied.";
         }
     }
 }

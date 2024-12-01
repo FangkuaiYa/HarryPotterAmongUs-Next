@@ -2,7 +2,7 @@
 using System.Numerics;
 using Vector2 = UnityEngine.Vector2;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 
 namespace HarryPotter.Classes.WorldItems
 {

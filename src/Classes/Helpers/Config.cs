@@ -1,7 +1,5 @@
 ﻿using System;
 using CustomOption.CustomOption;
-using Reactor;
-using Reactor.Extensions;
 
 namespace HarryPotter.Classes
 {
@@ -23,7 +21,7 @@ namespace HarryPotter.Classes
         {
             var num = 2;
 
-            HPSettings = new CustomHeaderOption(num++, "Harry Potter Settings");
+            HPSettings = new CustomHeaderOption(num++, "<#FF8503>Harry Potter Settings<#FFFFFF>");
 
             Option1 = new CustomToggleOption(num++, "Order of the Impostors", false);
             Option3 = new CustomToggleOption(num++, "Can Spells be Used In Vents", false);

@@ -5,7 +5,7 @@ using Hazel;
 using Rewired;
 using UnityEngine;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 
 namespace HarryPotter.Classes
 {
@@ -24,7 +24,7 @@ namespace HarryPotter.Classes
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (PlayerControl.LocalPlayer.Data.Disconnected) return;
             if (Main.Instance.GetLocalModdedPlayer().HasItem(Id)) return;
-            if (!ItemWorldObject.GetComponent<SpriteRenderer>().bounds.Intersects(PlayerControl.LocalPlayer.MyRend.bounds)) return;
+            if (!ItemWorldObject.GetComponent<SpriteRenderer>().bounds.Intersects(PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.bounds)) return;
             
             PickUp();
         }

@@ -4,7 +4,8 @@ using HarryPotter.Classes.Roles;
 using HarryPotter.Classes.UI;
 using UnityEngine;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
+using Reactor.Utilities.Attributes;
 
 namespace HarryPotter.Classes.Helpers.UI
 {
@@ -56,9 +57,9 @@ namespace HarryPotter.Classes.Helpers.UI
             {
                 if (Icon != null)
                 {
-                    Icon.HatSlot.Destroy();
-                    Icon.Skin.layer.Destroy();
-                    Icon.CurrentBodySprite.BodySprite.Destroy();
+                    Icon.cosmetics.hat.Destroy();
+                    Icon.cosmetics.skin.layer.Destroy();
+                    Icon.cosmetics.currentBodySprite.BodySprite.Destroy();
                     Icon.gameObject.Destroy();
                     Icon.Destroy();
                 }
@@ -70,9 +71,9 @@ namespace HarryPotter.Classes.Helpers.UI
             {
                 if (Icon != null)
                 {
-                    Icon.HatSlot.Destroy();
-                    Icon.Skin.layer.Destroy();
-                    Icon.CurrentBodySprite.BodySprite.Destroy();
+                    Icon.cosmetics.hat.Destroy();
+                    Icon.cosmetics.skin.layer.Destroy();
+                    Icon.cosmetics.currentBodySprite.BodySprite.Destroy();
                     Icon.gameObject.Destroy();
                     Icon.Destroy();
                 }
@@ -93,20 +94,20 @@ namespace HarryPotter.Classes.Helpers.UI
             {
                 Icon = Instantiate(HudManager.Instance.IntroPrefab.PlayerPrefab, gameObject.transform).DontDestroy();
                 Icon.gameObject.layer = 5;
-                Icon.CurrentBodySprite.BodySprite.sortingOrder = 5;
-                Icon.Skin.layer.sortingOrder = 6;
-                Icon.HatSlot.BackLayer.sortingOrder = 4;
-                Icon.HatSlot.FrontLayer.sortingOrder = 6;
+                Icon.cosmetics.currentBodySprite.BodySprite.sortingOrder = 5;
+                Icon.cosmetics.skin.layer.sortingOrder = 6;
+                Icon.cosmetics.hat.BackLayer.sortingOrder = 4;
+                Icon.cosmetics.hat.FrontLayer.sortingOrder = 6;
                 Icon.name = data.PlayerName;
                 Icon.SetFlipX(true);
                 Icon.transform.localScale = Vector3.one * 2f;
             }
 
-            PlayerControl.SetPlayerMaterialColors(data.DefaultOutfit.ColorId, Icon.CurrentBodySprite.BodySprite);
+            TargetedPlayer.SetPlayerMaterialColors(Icon.cosmetics.currentBodySprite.BodySprite);
             TargetedPlayer.SetSkin(data.DefaultOutfit.SkinId, data.DefaultOutfit.ColorId);
-            Icon.HatSlot.SetHat(data.DefaultOutfit.HatId, data.DefaultOutfit.ColorId);
-            PlayerControl.SetPetImage(data.DefaultOutfit.PetId, data.DefaultOutfit.ColorId, Icon.PetSlot);
-            Icon.NameText.gameObject.SetActive(false);
+            Icon.cosmetics.hat.SetHat(data.DefaultOutfit.HatId, data.DefaultOutfit.ColorId);
+            //PlayerControl.SetPetImage(data.DefaultOutfit.PetId, data.DefaultOutfit.ColorId, Icon.PetSlot);
+            Icon.cosmetics.nameText.gameObject.SetActive(false);
         }
 
         public void LateUpdate()

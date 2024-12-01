@@ -3,11 +3,13 @@ using System.Collections;
 using System.Linq;
 using HarryPotter.Classes.Helpers.UI;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
 using HarryPotter.Classes.Roles;
 using HarryPotter.Classes.UI;
 using InnerNet;
 using UnityEngine;
+using Reactor.Utilities.Attributes;
+using Reactor.Utilities;
 
 namespace HarryPotter.Classes
 {
@@ -71,12 +73,12 @@ namespace HarryPotter.Classes
 
         public void OpenMenu()
         {
-            Reactor.Coroutines.Start(CoOpen());
+            Coroutines.Start(CoOpen());
         }
 
         public void CloseMenu()
         {
-            Reactor.Coroutines.Start(CoClose());
+            Coroutines.Start(CoClose());
         }
         
         public IEnumerator CoOpen()

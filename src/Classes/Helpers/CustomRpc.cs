@@ -11,8 +11,7 @@ using Hazel.Udp;
 using Il2CppSystem.Diagnostics;
 using Il2CppSystem.Net;
 using UnityEngine;
-using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities;
 
 namespace HarryPotter.Classes
 {

@@ -3,7 +3,8 @@ using System.Linq;
 using HarryPotter.Classes.UI;
 using UnityEngine;
 using Reactor;
-using Reactor.Extensions;
+using Reactor.Utilities.Extensions;
+using Reactor.Utilities.Attributes;
 
 namespace HarryPotter.Classes.Helpers.UI
 {

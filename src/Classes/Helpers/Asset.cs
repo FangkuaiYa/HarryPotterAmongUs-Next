@@ -6,10 +6,10 @@ using HarryPotter.Classes.Helpers.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Video;
-using Reactor;
-using Reactor.Extensions;
-using UnhollowerBaseLib;
 using System.Reflection;
+using Reactor.Utilities.Extensions;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Il2CppInterop.Runtime;
 
 namespace HarryPotter.Classes
 {
@@ -22,7 +22,7 @@ namespace HarryPotter.Classes
         public List<Sprite> WorldItemIcons { get; }
         public List<Sprite> CrucioSprite { get; }
         public List<Sprite> CurseSprite { get; }
-        public List<Sprite> AllHatSprites { get; }
+        //public List<Sprite> AllHatSprites { get; }
         public PhysicsMaterial2D SnitchMaterial { get; }
         public AudioClip HPTheme { get; }
         //public Material GenericOutlineMat { get; }
@@ -35,7 +35,7 @@ namespace HarryPotter.Classes
             WorldItemIcons = new List<Sprite>();
             CrucioSprite = new List<Sprite>();
             CurseSprite = new List<Sprite>();
-            AllHatSprites = new List<Sprite>();
+            //AllHatSprites = new List<Sprite>();
 
             AbilityIcons.Add(bundle.LoadAsset<Sprite>("CurseButton").DontUnload());
             AbilityIcons.Add(bundle.LoadAsset<Sprite>("CrucioButton").DontUnload());
@@ -73,11 +73,11 @@ namespace HarryPotter.Classes
             CurseSprite.Add(bundle.LoadAsset<Sprite>("CurseF1").DontUnload());
             CurseSprite.Add(bundle.LoadAsset<Sprite>("CurseF2").DontUnload());
 
-            for (var i = 0; i <= 21; i++)
-            {
-                AllHatSprites.Add(bundle.LoadAsset<Sprite>($"hat_{i}").DontUnload());
-                System.Console.WriteLine(AllHatSprites[i].name);
-            }
+            //for (var i = 0; i <= 21; i++)
+            //{
+            //    AllHatSprites.Add(bundle.LoadAsset<Sprite>($"hat_{i}").DontUnload());
+            //    System.Console.WriteLine(AllHatSprites[i].name);
+            //}
 
             SmallSortSprite = bundle.LoadAsset<Sprite>("SmallSortIco").DontUnload();
             SmallSnitchSprite = bundle.LoadAsset<Sprite>("SmallSnitchIco").DontUnload();
