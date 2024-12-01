@@ -10,9 +10,9 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy /y /d &quot;$(TargetPath)&quot; &quot;C:\Users\26837\Desktop\HarryPotterMod\AmongUs2021.06.30s\BepInEx\plugins\&quot;" />
-  </Target>
+  </Target>-->
   <ItemGroup>
     <EmbeddedResource Include="Resources\*.png" />
   </ItemGroup>
