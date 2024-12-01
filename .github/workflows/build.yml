@@ -34,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: HarryPotter.dll
-          path: HarryPotter/bin/Release/netstandard2.1/HarryPotter.dll
+          path: HarryPotter/bin/Release/net6.0/HarryPotter.dll
