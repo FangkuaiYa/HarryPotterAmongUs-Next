@@ -29,24 +29,18 @@ namespace HarryPotter.Classes.Roles
                 return;
             
             CrucioButton = UnityEngine.Object.Instantiate(HudManager.Instance.KillButton);
-            CrucioButton.buttonLabelText.gameObject.SetActive(true);
-            CrucioButton.buttonLabelText.text = "Crucio";
             CrucioButton.graphic.enabled = true;
             
             Tooltip tt = CrucioButton.gameObject.AddComponent<Tooltip>();
             tt.TooltipText = "Crucio:\nA spell which will blind and stun any target it hits\n<#FF0000FF>Right click to shoot this spell in the direction of your cursor";
             
             MindControlButton = UnityEngine.Object.Instantiate(HudManager.Instance.KillButton);
-            MindControlButton.buttonLabelText.gameObject.SetActive(true);
-            MindControlButton.buttonLabelText.text = "Mind Control";
             MindControlButton.graphic.enabled = true;
             
             Tooltip tt2 = MindControlButton.gameObject.AddComponent<Tooltip>();
             tt2.TooltipText = "Imperio:\nOpens a menu which allows you to choose a player to mind-control\n<#FF0000FF>The mind-controlled player MUST be previously 'marked'";
             
             MarkButton = UnityEngine.Object.Instantiate(HudManager.Instance.KillButton);
-            MarkButton.buttonLabelText.gameObject.SetActive(true);
-            MarkButton.buttonLabelText.text = "Mark Victim";
             MarkButton.graphic.enabled = true;
             
             Tooltip tt3 = MarkButton.gameObject.AddComponent<Tooltip>();
@@ -178,18 +172,24 @@ namespace HarryPotter.Classes.Roles
             CrucioButton.transform.position = new Vector2(bottomLeft.x + 0.75f, bottomLeft.y + 0.75f);
             CrucioButton.SetTarget(null);
             CrucioButton.SetCoolDown(Main.Instance.Config.CrucioCooldown - (float)(DateTime.UtcNow - LastCrucio).TotalSeconds, Main.Instance.Config.CrucioCooldown);
-            
+            CrucioButton.buttonLabelText.gameObject.SetActive(true);
+            CrucioButton.buttonLabelText.text = "Crucio";
+
             MindControlButton.gameObject.SetActive(ShouldDrawCustomButtons());
             MindControlButton.graphic.sprite = Main.Instance.Assets.AbilityIcons[2];
             MindControlButton.transform.position = new Vector2(bottomLeft.x + MindControlButton.graphic.size.x + 0.75f, bottomLeft.y + 0.75f);
             MindControlButton.SetTarget(null);
             MindControlButton.SetCoolDown(Owner._Object.killTimer, PlayerControl.GameOptions.KillCooldown);
-            
+            MindControlButton.buttonLabelText.gameObject.SetActive(true);
+            MindControlButton.buttonLabelText.text = "Mind Control";
+
             MarkButton.gameObject.SetActive(ShouldDrawCustomButtons());
             MarkButton.graphic.sprite = Main.Instance.Assets.AbilityIcons[6];
             MarkButton.transform.position = new Vector2(bottomLeft.x + MindControlButton.graphic.size.x + MarkButton.graphic.size.x + 0.75f, bottomLeft.y + 0.75f);
             MarkButton.SetTarget(Main.Instance.GetClosestTarget(Owner._Object, true, MarkedPlayers.ToArray()));
             MarkButton.SetCoolDown(10f - (float)(DateTime.UtcNow - LastMark).TotalSeconds, 10f);
+            MarkButton.buttonLabelText.gameObject.SetActive(true);
+            MarkButton.buttonLabelText.text = "Mark Victim";
 
             bool isDead = Owner._Object.Data.IsDead;
             if (isDead)

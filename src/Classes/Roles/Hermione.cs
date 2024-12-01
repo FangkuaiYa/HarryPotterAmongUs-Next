@@ -24,8 +24,6 @@ namespace HarryPotter.Classes.Roles
             
             HourglassButton = KillButton.Instantiate(HudManager.Instance.KillButton);
             HourglassButton.graphic.enabled = true;
-            HourglassButton.buttonLabelText.gameObject.SetActive(true);
-            HourglassButton.buttonLabelText.text = "Time Turner";
 
             Tooltip tt = HourglassButton.gameObject.AddComponent<Tooltip>();
             tt.TooltipText = $"Time Turner:\nOn a delay of {Main.Instance.Config.HourglassTimer}s, you will teleport back to your starting position\nThis will bring you back to life, unless you were killed by a spell";
@@ -83,7 +81,9 @@ namespace HarryPotter.Classes.Roles
             HourglassButton.transform.position = new Vector2(bottomLeft.x + 0.75f, bottomLeft.y + 0.75f);
             HourglassButton.SetTarget(null);
             HourglassButton.SetCoolDown(Main.Instance.Config.HourglassCooldown - (float)(DateTime.UtcNow - LastHourglass).TotalSeconds, Main.Instance.Config.HourglassCooldown);
-            
+            HourglassButton.buttonLabelText.gameObject.SetActive(true);
+            HourglassButton.buttonLabelText.text = "Time Turner";
+
             bool isDead = Owner._Object.Data.IsDead;
             if (isDead)
                 HourglassButton.SetCoolDown(0, 1);

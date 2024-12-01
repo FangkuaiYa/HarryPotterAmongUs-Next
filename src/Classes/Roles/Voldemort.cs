@@ -23,8 +23,6 @@ namespace HarryPotter.Classes.Roles
             
             CurseButton = UnityEngine.Object.Instantiate(HudManager.Instance.KillButton);
             CurseButton.graphic.enabled = true;
-            CurseButton.buttonLabelText.gameObject.SetActive(true);
-            CurseButton.buttonLabelText.text = "Avadacadavra";
 
             Tooltip tt = CurseButton.gameObject.AddComponent<Tooltip>();
             tt.TooltipText = "The Killing Curse:\nA spell which will kill any target it hits, except Harry\nIf the spell hits Harry, you will die instead\n<#FF0000FF>Right click to shoot this spell in the direction of your cursor";
@@ -48,7 +46,9 @@ namespace HarryPotter.Classes.Roles
                 CurseButton.SetCoolDown(PlayerControl.GameOptions.KillCooldown - (float)(DateTime.UtcNow - LastCurse).TotalSeconds, PlayerControl.GameOptions.KillCooldown);
             else
                 CurseButton.SetCoolDown(Owner._Object.killTimer, PlayerControl.GameOptions.KillCooldown);
-            
+            CurseButton.buttonLabelText.gameObject.SetActive(true);
+            CurseButton.buttonLabelText.text = "Avadacadavra";
+
             bool isDead = Owner._Object.Data.IsDead;
             if (isDead)
                 CurseButton.SetCoolDown(0, 1);

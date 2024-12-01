@@ -22,8 +22,6 @@ namespace HarryPotter.Classes.Roles
             
             InvisCloakButton = KillButton.Instantiate(HudManager.Instance.KillButton);
             InvisCloakButton.graphic.enabled = true;
-            InvisCloakButton.buttonLabelText.gameObject.SetActive(true);
-            InvisCloakButton.buttonLabelText.text = "Cloak";// 隐形斗篷
             Tooltip tt = InvisCloakButton.gameObject.AddComponent<Tooltip>();
             tt.TooltipText = $"Cloak:\nWill make you invisible for {Main.Instance.Config.InvisCloakDuration}s";
         }
@@ -80,7 +78,9 @@ namespace HarryPotter.Classes.Roles
             InvisCloakButton.transform.position = new Vector2(bottomLeft.x + 0.75f, bottomLeft.y + 0.75f);
             InvisCloakButton.SetTarget(null);
             InvisCloakButton.SetCoolDown(Main.Instance.Config.InvisCloakCooldown - (float)(DateTime.UtcNow - LastCloak).TotalSeconds, Main.Instance.Config.InvisCloakCooldown);
-            
+            InvisCloakButton.buttonLabelText.gameObject.SetActive(true);
+            InvisCloakButton.buttonLabelText.text = "Cloak";// 隐形斗篷
+
             bool isDead = Owner._Object.Data.IsDead;
             if (isDead) InvisCloakButton.SetCoolDown(0, 1);
             if (!InvisCloakButton.isCoolingDown && !isDead)
